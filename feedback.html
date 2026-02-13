@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Я - студент ВШЭ | Главная</title>
+    <title>Я - студент ВШЭ | Обратная связь</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -18,7 +18,7 @@
             background-color: #f8f9fa;
             background-image: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
         }
-        
+
         header {
             background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
             color: white;
@@ -28,18 +28,18 @@
             position: relative;
             overflow: hidden;
         }
-        
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-        
+
+            header::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+                transform: rotate(30deg);
+            }
+
         h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
@@ -47,7 +47,7 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
             letter-spacing: -0.5px;
         }
-        
+
         .subtitle {
             font-size: 1.5rem;
             opacity: 0.9;
@@ -55,7 +55,7 @@
             margin: 0 auto;
             position: relative;
         }
-        
+
         nav {
             background-color: white;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -63,23 +63,23 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .nav-container {
             display: flex;
             justify-content: center;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         nav ul {
             display: flex;
             list-style: none;
         }
-        
+
         nav li {
             margin: 0;
         }
-        
+
         nav a {
             display: block;
             padding: 1.2rem 2rem;
@@ -90,43 +90,40 @@
             position: relative;
             font-size: 1.1rem;
         }
-        
-        nav a:hover, nav a.active {
-            background-color: #f0f4ff;
-            color: #8e2de2;
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background-color: #8e2de2;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-        
-        nav a:hover::after, nav a.active::after {
-            width: 70%;
-        }
-        
+
+            nav a:hover, nav a.active {
+                background-color: #f0f4ff;
+                color: #8e2de2;
+            }
+
+            nav a::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 3px;
+                background-color: #8e2de2;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            nav a:hover::after, nav a.active::after {
+                width: 70%;
+            }
+
         main {
             max-width: 1200px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 2.5rem;
         }
-        
+
         @media (max-width: 900px) {
             main {
-                grid-template-columns: 1fr;
+                padding: 0 1rem;
             }
         }
-        
+
         .content-section {
             background: white;
             border-radius: 12px;
@@ -135,350 +132,45 @@
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
-        .content-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-        }
-        
+
+            .content-section:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            }
+
         h2 {
             color: #4a00e0;
             margin-bottom: 1.5rem;
             padding-bottom: 0.75rem;
             border-bottom: 2px solid #f0f4ff;
             font-size: 2.2rem;
+            text-align: center;
         }
-        
+
         p {
             margin-bottom: 1.2rem;
             font-size: 1.1rem;
+            text-align: center;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
+
         .highlight {
             background: linear-gradient(120deg, rgba(142,45,226,0.15) 0%, rgba(74,0,224,0.1) 100%);
             border-left: 4px solid #8e2de2;
             padding: 1.5rem;
             border-radius: 0 8px 8px 0;
-            margin: 1.5rem 0;
+            margin: 1.5rem auto;
+            max-width: 800px;
         }
-        
-        .student-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 2rem;
-            align-items: center;
-        }
-        
-        .student-photo {
-            flex: 1;
-            min-width: 250px;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .student-photo img {
-            width: 100%;
-            max-width: 300px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            border: 5px solid white;
-            transition: transform 0.4s ease;
-        }
-        
-        .student-photo img:hover {
-            transform: scale(1.03);
-        }
-        
-        .student-details {
-            flex: 2;
-            min-width: 300px;
-        }
-        
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .stat-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #eef2ff 100%);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eaefff;
-        }
-        
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #4a00e0;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            color: #5a5a72;
-            font-size: 0.95rem;
-        }
-        
-        .achievements {
-            margin-top: 1.5rem;
-        }
-        
-        .achievements ul {
-            padding-left: 1.8rem;
-            margin: 1rem 0;
-        }
-        
-        .achievements li {
-            margin-bottom: 0.8rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        
-        .achievements li::before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #4a00e0;
-            font-weight: bold;
-            background: #f0f4ff;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-        }
-        
-        .university-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-        
-        .gallery-item {
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            height: 120px;
-            background: linear-gradient(45deg, #8e2de2, #4a00e0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 500;
-            text-align: center;
-            padding: 0.5rem;
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-item:hover {
-            transform: scale(1.05);
-        }
-        
-        .aside-section {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
-            padding: 2rem;
-            align-self: start;
-            position: sticky;
-            top: 100px;
-        }
-        
-        .calendar-event {
-            border-left: 3px solid #8e2de2;
-            padding: 1rem;
-            margin-bottom: 1.2rem;
-            background-color: #f9faff;
-            border-radius: 0 6px 6px 0;
-        }
-        
-        .event-date {
-            font-weight: bold;
-            color: #4a00e0;
-            display: block;
-            margin-bottom: 0.3rem;
-        }
-        
-        .quote-box {
-            background: linear-gradient(135deg, #8e2de2 0%, #4a00e0 100%);
-            color: white;
-            border-radius: 10px;
-            padding: 1.8rem;
-            margin: 1.5rem 0;
-            position: relative;
-            quotes: "«" "»";
-        }
-        
-        .quote-box::before, .quote-box::after {
-            content: open-quote;
-            position: absolute;
-            font-size: 5rem;
-            opacity: 0.2;
-            font-family: Georgia, serif;
-        }
-        
-        .quote-box::before {
-            top: -20px;
-            left: 10px;
-        }
-        
-        .quote-box::after {
-            content: close-quote;
-            bottom: -40px;
-            right: 10px;
-        }
-        
-        .quote-text {
-            position: relative;
-            z-index: 1;
-            font-style: italic;
-            font-size: 1.2rem;
-            line-height: 1.5;
-        }
-        
-        .quote-author {
-            display: block;
-            text-align: right;
-            margin-top: 0.8rem;
-            font-weight: bold;
-        }
-        
-        .campus-facts h3 {
-            color: #4a00e0;
-            margin: 1.2rem 0 0.8rem;
-        }
-        
-        .fact-item {
-            margin-bottom: 0.8rem;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .fact-item::before {
-            content: "•";
-            color: #8e2de2;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-        }
-        
-        footer {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e6e6ff;
-            text-align: center;
-            padding: 2.5rem 1.5rem 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            text-align: left;
-        }
-        
-        .footer-section h3 {
-            color: white;
-            margin-bottom: 1.2rem;
-            font-size: 1.5rem;
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-        
-        .footer-section h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background: #8e2de2;
-        }
-        
-        .footer-section p, .footer-section a {
-            color: #c5c5e0;
-            margin-bottom: 0.8rem;
-            display: block;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-section a:hover {
-            color: #8e2de2;
-        }
-        
-        .copyright {
-            margin-top: 2rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #3a3a5e;
-            font-size: 0.95rem;
-            color: #a5a5c5;
-        }
-        
-        .hse-logo {
-            display: block;
-            max-width: 180px;
-            margin: 1.5rem auto 0;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
-        }
-        
-        .contact-info {
-            list-style: none;
-        }
-        
-        .contact-info li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.7rem;
-        }
-        
-        .contact-info li::before {
-            content: "•";
-            color: #8e2de2;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.4rem;
-        }
-        
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
-            }
-            
-            nav a {
-                padding: 1rem;
-                font-size: 0.95rem;
-            }
-            
-            main {
-                margin: 1.5rem;
-                padding: 0;
-            }
-            
-            .aside-section {
-                position: static;
-            }
-        }
-        
-        /* Стили для второй страницы (форма обратной связи) */
+
         .form-container {
             max-width: 800px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
         }
-        
+
         .feedback-form {
             background: white;
             border-radius: 15px;
@@ -486,18 +178,18 @@
             padding: 2.5rem;
             margin-top: 1.5rem;
         }
-        
+
         .form-group {
             margin-bottom: 1.8rem;
         }
-        
+
         label {
             display: block;
             margin-bottom: 0.6rem;
             font-weight: 600;
             color: #2d2d44;
         }
-        
+
         input, select, textarea {
             width: 100%;
             padding: 0.9rem 1.2rem;
@@ -507,36 +199,36 @@
             font-size: 1rem;
             transition: border-color 0.3s;
         }
-        
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #8e2de2;
-            box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.15);
-        }
-        
+
+            input:focus, select:focus, textarea:focus {
+                outline: none;
+                border-color: #8e2de2;
+                box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.15);
+            }
+
         textarea {
             min-height: 150px;
             resize: vertical;
         }
-        
+
         .radio-group, .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 1.2rem;
             margin-top: 0.6rem;
         }
-        
+
         .radio-option, .checkbox-option {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        
-        .radio-option input, .checkbox-option input {
-            width: auto;
-            margin-right: 0.5rem;
-        }
-        
+
+            .radio-option input, .checkbox-option input {
+                width: auto;
+                margin-right: 0.5rem;
+            }
+
         .submit-btn {
             background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
             color: white;
@@ -551,47 +243,156 @@
             display: inline-block;
             margin-top: 0.5rem;
         }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.45);
-        }
-        
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-        
+
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(74, 0, 224, 0.45);
+            }
+
+            .submit-btn:active {
+                transform: translateY(0);
+            }
+
         .required::after {
             content: " *";
             color: #e74c3c;
         }
-        
+
         .form-note {
             font-size: 0.9rem;
             color: #7f8c8d;
             margin-top: 0.4rem;
             font-style: italic;
         }
-        
+
         fieldset {
             border: 2px solid #f0f4ff;
             border-radius: 10px;
             padding: 1.8rem;
             margin: 1.5rem 0;
         }
-        
+
         legend {
             font-weight: 600;
             color: #4a00e0;
             padding: 0 0.8rem;
             font-size: 1.3rem;
         }
-        
+
         .page-title {
             text-align: center;
             margin: 2rem 0;
             color: #2d2d44;
             font-size: 2.8rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6ff;
+            text-align: center;
+            padding: 2.5rem 1.5rem 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-section h3 {
+            color: white;
+            margin-bottom: 1.2rem;
+            font-size: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+            .footer-section h3::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 40px;
+                height: 2px;
+                background: #8e2de2;
+            }
+
+        .footer-section p, .footer-section a {
+            color: #c5c5e0;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .footer-section a:hover {
+                color: #8e2de2;
+            }
+
+        .copyright {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #3a3a5e;
+            font-size: 0.95rem;
+            color: #a5a5c5;
+        }
+
+        .hse-logo {
+            display: block;
+            max-width: 180px;
+            margin: 1.5rem auto 0;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+            .contact-info li {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0.7rem;
+            }
+
+                .contact-info li::before {
+                    content: "•";
+                    color: #8e2de2;
+                    font-weight: bold;
+                    margin-right: 10px;
+                    font-size: 1.4rem;
+                }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            nav a {
+                padding: 1rem;
+                font-size: 0.95rem;
+            }
+
+            main {
+                margin: 1.5rem;
+                padding: 0;
+            }
+
+            .feedback-form {
+                padding: 1.8rem;
+            }
+
+            .radio-group, .checkbox-group {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -600,140 +401,120 @@
         <h1>Я - студент ВШЭ</h1>
         <p class="subtitle">Национальный исследовательский университет «Высшая школа экономики» — один из ведущих вузов России</p>
     </header>
-    
+
     <nav>
         <div class="nav-container">
             <ul>
-                <li><a href="index.html" class="active">Главная</a></li>
-                <li><a href="feedback.html">Обратная связь</a></li>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="feedback.html" class="active">Обратная связь</a></li>
             </ul>
         </div>
     </nav>
-    
+
     <main>
         <section class="content-section">
-            <h2>Обо мне</h2>
-            <div class="student-info">
-                <div class="student-photo">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Фотография студента ВШЭ">
+            <h2 class="page-title">Форма обратной связи</h2>
+            <p>Уважаемые посетители сайта! Если у вас есть вопросы, предложения или вы хотите поделиться своим опытом обучения в Высшей школе экономики, пожалуйста, заполните форму ниже. Я постараюсь ответить на ваше сообщение в ближайшее время.</p>
+
+            <div class="highlight">
+                <p>Все поля, отмеченные звёздочкой (<span style="color: #e74c3c">*</span>), являются обязательными для заполнения.</p>
+            </div>
+        </section>
+
+        <section class="form-container">
+            <form class="feedback-form" action="#" method="post">
+                <div class="form-group">
+                    <label for="name" class="required">Ваше имя</label>
+                    <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
                 </div>
-                <div class="student-details">
-                    <p>Меня зовут Алексей Иванов, и я с гордостью учусь на <strong>бакалавриате факультета компьютерных наук</strong> НИУ ВШЭ. Поступил в университет в 2023 году после окончания школы с золотой медалью.</p>
-                    <p>Моя специализация — <em>прикладная математика и информатика</em>. Я увлекаюсь разработкой веб-приложений, искусственным интеллектом и участвую в хакатонах.</p>
-                    
-                    <div class="stats-container">
-                        <div class="stat-card">
-                            <div class="stat-number">4.8</div>
-                            <div class="stat-label">Средний балл</div>
+
+                <div class="form-group">
+                    <label for="email" class="required">Электронная почта</label>
+                    <input type="email" id="email" name="email" required placeholder="example@mail.ru">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67">
+                </div>
+
+                <div class="form-group">
+                    <label for="faculty" class="required">Ваш факультет/институт</label>
+                    <select id="faculty" name="faculty" required>
+                        <option value="">Выберите факультет</option>
+                        <option value="cs">Факультет компьютерных наук</option>
+                        <option value="economics">Факультет экономических наук</option>
+                        <option value="management">Факультет менеджмента</option>
+                        <option value="law">Юридический факультет</option>
+                        <option value="social">Факультет социальных наук</option>
+                        <option value="other">Другой</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="subject" class="required">Тема сообщения</label>
+                    <input type="text" id="subject" name="subject" required placeholder="Кратко опишите суть обращения">
+                </div>
+
+                <div class="form-group">
+                    <label for="message" class="required">Сообщение</label>
+                    <textarea id="message" name="message" required placeholder="Введите ваше сообщение здесь..."></textarea>
+                </div>
+
+                <fieldset>
+                    <legend>Тип обращения</legend>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="question" name="inquiry-type" value="question" required>
+                            <label for="question">Вопрос</label>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number">3</div>
-                            <div class="stat-label">Языка</div>
+                        <div class="radio-option">
+                            <input type="radio" id="suggestion" name="inquiry-type" value="suggestion">
+                            <label for="suggestion">Предложение</label>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number">2</div>
-                            <div class="stat-label">Хакатона</div>
+                        <div class="radio-option">
+                            <input type="radio" id="experience" name="inquiry-type" value="experience">
+                            <label for="experience">Делюсь опытом</label>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number">1</div>
-                            <div class="stat-label">Публикация</div>
+                        <div class="radio-option">
+                            <input type="radio" id="other" name="inquiry-type" value="other">
+                            <label for="other">Другое</label>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-group">
+                    <label>Дополнительные опции</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="newsletter" name="newsletter">
+                            <label for="newsletter">Подписаться на новости ВШЭ</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="anonymous" name="anonymous">
+                            <label for="anonymous">Отправить анонимно</label>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="highlight">
-                <p>ВШЭ предоставляет уникальные возможности для развития: международные программы обмена, стажировки в ведущих компаниях, научные конференции и проектная деятельность с первого курса.</p>
-            </div>
+
+                <div class="form-group">
+                    <label for="rating">Как вы оцениваете качество образования в ВШЭ?</label>
+                    <select id="rating" name="rating">
+                        <option value="5">Отлично (5)</option>
+                        <option value="4">Хорошо (4)</option>
+                        <option value="3" selected>Удовлетворительно (3)</option>
+                        <option value="2">Плохо (2)</option>
+                        <option value="1">Очень плохо (1)</option>
+                    </select>
+                </div>
+
+                <p class="form-note">Нажимая кнопку "Отправить сообщение", вы даёте согласие на обработку персональных данных в соответствии с <a href="#" style="color: #4a00e0; text-decoration: underline;">политикой конфиденциальности</a>.</p>
+
+                <button type="submit" class="submit-btn">Отправить сообщение</button>
+            </form>
         </section>
-        
-        <section class="content-section">
-            <h2>Учебная деятельность</h2>
-            <p>Учебная программа в Вышке построена по принципу <strong>модульной системы</strong>, что позволяет гибко формировать образовательную траекторию. Каждый учебный год состоит из четырёх модулей, по итогам которых сдаются экзамены и зачёты.</p>
-            
-            <p>Среди ключевых дисциплин моей специальности:</p>
-            <ul>
-                <li>Математический анализ и линейная алгебра</li>
-                <li>Алгоритмы и структуры данных</li>
-                <li>Теория вероятностей и математическая статистика</li>
-                <li>Машинное обучение и анализ данных</li>
-                <li>Разработка веб-приложений</li>
-                <li>Искусственный интеллект</li>
-            </ul>
-            
-            <div class="achievements">
-                <h3>Достижения</h3>
-                <ul>
-                    <li>Победитель внутривузовского хакатона "HSE Hack Day 2025"</li>
-                    <li>Участник исследовательского проекта по компьютерному зрению</li>
-                    <li>Стажировка в Яндексе летом 2025 года</li>
-                    <li>Публикация в студенческом научном журнале "ВШЭ Computer Science Review"</li>
-                </ul>
-            </div>
-        </section>
-        
-        <section class="content-section">
-            <h2>Кампус и студенческая жизнь</h2>
-            <p>Учусь в <strong>Московском кампусе</strong> на Покровском бульваре. Здание университета сочетает историческую архитектуру с современными учебными пространствами, оснащёнными по последнему слову техники.</p>
-            
-            <p>В свободное от учёбы время я:</p>
-            <ul>
-                <li>Участвую в работе <strong>студенческого совета</strong> факультета</li>
-                <li>Посещаю курсы в <strong>Центре развития карьеры</strong></li>
-                <li>Занимаюсь в спортивном клубе ВШЭ (баскетбол)</li>
-                <li>Посещаю лекции и мастер-классы в рамках программы <strong>"Университетские субботы"</strong></li>
-            </ul>
-            
-            <h3>Галерея кампуса</h3>
-            <div class="university-gallery">
-                <div class="gallery-item">Главное здание на Покровском бульваре</div>
-                <div class="gallery-item">Современные аудитории</div>
-                <div class="gallery-item">Библиотека им. Н.Е. Зефирова</div>
-                <div class="gallery-item">Студенческое кафе</div>
-                <div class="gallery-item">Коворкинг-зоны</div>
-                <div class="gallery-item">Спортивный комплекс</div>
-            </div>
-        </section>
-        
-        <aside class="aside-section">
-            <h2>Актуальная информация</h2>
-            
-            <div class="calendar-event">
-                <span class="event-date">15 февраля 2026</span>
-                <div>Начало весеннего семестра</div>
-            </div>
-            
-            <div class="calendar-event">
-                <span class="event-date">20-25 февраля 2026</span>
-                <div>Неделя карьеры ВШЭ</div>
-            </div>
-            
-            <div class="calendar-event">
-                <span class="event-date">10 марта 2026</span>
-                <div>Дедлайн подачи заявок на международные программы</div>
-            </div>
-            
-            <div class="calendar-event">
-                <span class="event-date">15 апреля 2026</span>
-                <div>Международная научная конференция студентов</div>
-            </div>
-            
-            <div class="quote-box">
-                <span class="quote-text">Учиться в Вышке — это не только получать знания, но и развиваться как личность, находить единомышленников и строить карьеру уже во время учёбы.</span>
-                <span class="quote-author">— Студент ВШЭ</span>
-            </div>
-            
-            <div class="campus-facts">
-                <h3>Факты о ВШЭ</h3>
-                <div class="fact-item">Основан в 1992 году</div>
-                <div class="fact-item">Более 40 000 студентов</div>
-                <div class="fact-item">15 факультетов и институтов</div>
-                <div class="fact-item">Партнёрство с 600+ университетами мира</div>
-                <div class="fact-item">95% выпускников трудоустраиваются в течение года</div>
-            </div>
-        </aside>
     </main>
-    
+
     <footer>
         <div class="footer-content">
             <div class="footer-section">
@@ -745,7 +526,7 @@
                     <li>Пн-Пт: 9:00 - 18:00</li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Полезные ссылки</h3>
                 <a href="https://www.hse.ru/" target="_blank">Официальный сайт ВШЭ</a>
@@ -754,7 +535,7 @@
                 <a href="https://www.hse.ru/career/" target="_blank">Карьера</a>
                 <a href="https://www.hse.ru/international/" target="_blank">Международное сотрудничество</a>
             </div>
-            
+
             <div class="footer-section">
                 <h3>Социальные сети</h3>
                 <a href="https://vk.com/hse_university" target="_blank">ВКонтакте</a>
@@ -763,16 +544,16 @@
                 <a href="https://www.instagram.com/hse_university/" target="_blank">Instagram</a>
                 <a href="https://rutube.ru/channel/23711067/" target="_blank">Rutube</a>
             </div>
-            
+
             <div class="footer-section">
                 <h3>НИУ ВШЭ</h3>
                 <p>Национальный исследовательский университет «Высшая школа экономики» — один из крупнейших вузов России, реализующий программы высшего образования, дополнительного образования и научной деятельности.</p>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/HSE_University_logo.svg/1200px-HSE_University_logo.svg.png" alt="Логотип ВШЭ" class="hse-logo">
             </div>
         </div>
-        
+
         <div class="copyright">
-            <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Алексей Иванов, группа БПМИ2305</p>
+            <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
         </div>
     </footer>
 </body>
