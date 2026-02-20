@@ -282,7 +282,6 @@ footer .footer-section h3 {
     #main-content {
         grid-template-columns: 1fr;
     }
-
     .aside-section {
         position: static;
     }
