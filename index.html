@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Я - студент ВШЭ | Главная</title>
+    <!-- Подключение внешнего файла стилей -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Подключение библиотеки Leaflet для карты -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Внутренние стили -->
     <style>
         .university-gallery {
             display: grid;
@@ -102,6 +105,8 @@
                 position: absolute;
                 left: 0;
             }
+
+        /* Стили для навигации */
         nav {
             background-color: white;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -154,6 +159,7 @@
                     width: 70%;
                 }
 
+        /* Стили для карты */
         .map-container {
             height: 400px;
             border-radius: 12px;
@@ -168,6 +174,7 @@
             width: 100%;
         }
 
+        /* Стили для чата */
         .chat-container {
             position: fixed;
             bottom: 20px;
@@ -396,10 +403,10 @@
             <h2>Обо мне</h2>
             <div class="student-info">
                 <div class="student-photo">
-                    <img src="" alt="Аватар студента ВШЭ" style="max-width: 300px; border-radius: 12px;">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=HSEStudent" alt="Аватар студента ВШЭ" style="max-width: 300px; border-radius: 12px;">
                 </div>
                 <div class="student-details" style="flex: 2; min-width: 300px;">
-                    <p>Меня зовут Никита Мазуренко, и я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2022 году после окончания школы с золотой медалью.</p>
+                    <p>Меня зовут Никита Мазуренко, и я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2023 году после окончания школы с золотой медалью.</p>
                     <p>Моя специализация — <em>прикладная математика</em>. Я увлекаюсь разработкой веб-приложений, искусственным интеллектом и бэкэнд разработкой.</p>
 
                     <div class="stats-container">
@@ -497,6 +504,7 @@
         </aside>
     </main>
 
+    <!-- Виртуальный чат -->
     <div class="chat-container" id="chat-container">
         <div class="chat-header" id="chat-header">
             <div>
@@ -567,7 +575,9 @@
         </div>
     </footer>
 
+    <!-- Подключение библиотеки Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Подключение внешнего JavaScript файла -->
     <script src="script.js"></script>
 </body>
 </html>
