@@ -102,7 +102,6 @@
                 position: absolute;
                 left: 0;
             }
-
         nav {
             background-color: white;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -154,12 +153,14 @@
                 nav a:hover::after, nav a.active::after {
                     width: 70%;
                 }
+
         .map-container {
             height: 400px;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
             margin: 2rem 0;
+            border: 2px solid #e1e5f2;
         }
 
         #campus-map {
@@ -395,6 +396,7 @@
             <h2>Обо мне</h2>
             <div class="student-info">
                 <div class="student-photo">
+                    <img src="" alt="Аватар студента ВШЭ" style="max-width: 300px; border-radius: 12px;">
                 </div>
                 <div class="student-details" style="flex: 2; min-width: 300px;">
                     <p>Меня зовут Никита Мазуренко, и я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2022 году после окончания школы с золотой медалью.</p>
@@ -443,9 +445,9 @@
 
         <section class="content-section">
             <h2>Кампус и студенческая жизнь</h2>
-            <p>Учусь в <strong>Московском кампусе</strong> на Талинской 34. Здание университета имеет современные учебные пространства, оснащённые по последнему слову техники.</p>
+            <p>Учусь в <strong>Московском кампусе</strong> на Покровском бульваре. Здание университета сочетает историческую архитектуру с современными учебными пространствами, оснащёнными по последнему слову техники.</p>
 
-            <h3>Карта кампуса</h3>
+            <h3>Карта кампуса на Покровском бульваре</h3>
             <div class="map-container">
                 <div id="campus-map"></div>
             </div>
@@ -494,6 +496,7 @@
             </div>
         </aside>
     </main>
+
     <div class="chat-container" id="chat-container">
         <div class="chat-header" id="chat-header">
             <div>
@@ -563,6 +566,7 @@
             <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
         </div>
     </footer>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
 </body>

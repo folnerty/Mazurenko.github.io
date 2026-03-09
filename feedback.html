@@ -46,6 +46,64 @@
                 width: auto;
                 margin-right: 0.5rem;
             }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav li {
+                margin: 0;
+            }
+
+            nav a {
+                display: block;
+                padding: 1.2rem 2rem;
+                text-decoration: none;
+                color: #4a00e0;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                position: relative;
+                font-size: 1.1rem;
+            }
+
+                nav a:hover, nav a.active {
+                    background-color: #f0f4ff;
+                    color: #8e2de2 !important;
+                }
+
+                nav a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    width: 0;
+                    height: 3px;
+                    background-color: #8e2de2;
+                    transition: all 0.3s ease;
+                    transform: translateX(-50%);
+                }
+
+                nav a:hover::after, nav a.active::after {
+                    width: 70%;
+                }
+
+        #feedback-main {
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
     </style>
 </head>
 <body>
@@ -55,15 +113,13 @@
     </header>
 
     <nav>
-        <div class="nav-container">
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="feedback.html" class="active">Обратная связь</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="feedback.html" class="active">Обратная связь</a></li>
+        </ul>
     </nav>
 
-    <main id="main-content">
+    <main id="feedback-main">
         <section class="content-section">
             <h2 class="page-title">Форма обратной связи</h2>
             <p>Уважаемые посетители сайта! Если у вас есть вопросы, предложения или вы хотите поделиться своим опытом обучения в Высшей школе экономики, пожалуйста, заполните форму ниже. Я постараюсь ответить на ваше сообщение в ближайшее время.</p>
@@ -213,5 +269,7 @@
             <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
         </div>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
