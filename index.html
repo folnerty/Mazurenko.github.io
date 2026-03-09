@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Я - студент ВШЭ | Главная</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         .university-gallery {
             display: grid;
@@ -101,6 +102,279 @@
                 position: absolute;
                 left: 0;
             }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+            nav ul {
+                list-style: none;
+                display: flex;
+                justify-content: center;
+                margin: 0;
+                padding: 0;
+            }
+
+            nav li {
+                margin: 0;
+            }
+
+            nav a {
+                display: block;
+                padding: 1.2rem 2rem;
+                text-decoration: none;
+                color: #4a00e0;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                position: relative;
+                font-size: 1.1rem;
+            }
+
+                nav a:hover, nav a.active {
+                    background-color: #f0f4ff;
+                    color: #8e2de2 !important;
+                }
+
+                nav a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    width: 0;
+                    height: 3px;
+                    background-color: #8e2de2;
+                    transition: all 0.3s ease;
+                    transform: translateX(-50%);
+                }
+
+                nav a:hover::after, nav a.active::after {
+                    width: 70%;
+                }
+        .map-container {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        #campus-map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            z-index: 9999;
+            overflow: hidden;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+            .chat-container.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+        .chat-header {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+            .chat-header h3 {
+                margin: 0;
+                font-size: 1.2rem;
+                color: white;
+            }
+
+            .chat-header .status {
+                width: 12px;
+                height: 12px;
+                background: #2ecc71;
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 8px;
+            }
+
+            .chat-header .close-chat {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 0;
+                width: 30px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #f8f9fa;
+            max-height: 300px;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            max-width: 85%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 18px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.bot {
+            background: white;
+            color: #333;
+            border: 1px solid #e1e5f2;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            margin-top: 0.3rem;
+            text-align: right;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #e1e5f2;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+            .chat-input input {
+                flex: 1;
+                padding: 0.8rem 1rem;
+                border: 2px solid #e1e5f2;
+                border-radius: 25px;
+                font-family: inherit;
+                font-size: 1rem;
+            }
+
+            .chat-input button {
+                background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s;
+            }
+
+                .chat-input button:hover {
+                    transform: scale(1.1);
+                    box-shadow: 0 4px 12px rgba(142, 45, 226, 0.4);
+                }
+
+                .chat-input button i {
+                    font-size: 1.2rem;
+                }
+
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+            z-index: 9998;
+            transition: all 0.3s ease;
+        }
+
+            .chat-toggle:hover {
+                transform: scale(1.1) rotate(90deg);
+                box-shadow: 0 8px 25px rgba(74, 0, 224, 0.5);
+            }
+
+        .voice-recording {
+            background: #ff6b6b !important;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(255, 107, 107, 0.4);
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 6px 18px rgba(255, 107, 107, 0.6);
+            }
+        }
+
+        .recording-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.3;
+            }
+        }
     </style>
 </head>
 <body>
@@ -110,12 +384,10 @@
     </header>
 
     <nav>
-        <div class="nav-container">
-            <ul>
-                <li><a href="index.html" class="active">Главная</a></li>
-                <li><a href="feedback.html">Обратная связь</a></li>
-            </ul>
-        </div>
+        <ul>
+            <li><a href="index.html" class="active">Главная</a></li>
+            <li><a href="feedback.html">Обратная связь</a></li>
+        </ul>
     </nav>
 
     <main id="main-content">
@@ -123,10 +395,9 @@
             <h2>Обо мне</h2>
             <div class="student-info">
                 <div class="student-photo">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=HSEStudent" alt="Аватар студента ВШЭ" style="max-width: 300px; border-radius: 12px;">
                 </div>
                 <div class="student-details" style="flex: 2; min-width: 300px;">
-                    <p>Меня зовут Никита Мазуренко, и я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2023 году после окончания школы с золотой медалью.</p>
+                    <p>Меня зовут Никита Мазуренко, и я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2022 году после окончания школы с золотой медалью.</p>
                     <p>Моя специализация — <em>прикладная математика</em>. Я увлекаюсь разработкой веб-приложений, искусственным интеллектом и бэкэнд разработкой.</p>
 
                     <div class="stats-container">
@@ -174,6 +445,11 @@
             <h2>Кампус и студенческая жизнь</h2>
             <p>Учусь в <strong>Московском кампусе</strong> на Талинской 34. Здание университета имеет современные учебные пространства, оснащённые по последнему слову техники.</p>
 
+            <h3>Карта кампуса</h3>
+            <div class="map-container">
+                <div id="campus-map"></div>
+            </div>
+
             <h3>Галерея Университета</h3>
             <div class="university-gallery">
                 <div class="gallery-item">Главное здание на Покровском бульваре</div>
@@ -218,6 +494,33 @@
             </div>
         </aside>
     </main>
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header" id="chat-header">
+            <div>
+                <h3>Чат с Никитой <span class="status"></span></h3>
+            </div>
+            <button class="close-chat" id="close-chat">×</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">
+                <div class="message-content">Привет! Я Никита, студент ВШЭ. Чем могу помочь?</div>
+                <div class="message-time">Сейчас</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Напишите сообщение..." autocomplete="off">
+            <button id="send-btn">
+                <i>➤</i>
+            </button>
+            <button id="voice-btn">
+                <i>🎤</i>
+            </button>
+        </div>
+    </div>
+
+    <button class="chat-toggle" id="chat-toggle">
+        💬
+    </button>
 
     <footer>
         <div class="footer-content">
@@ -260,5 +563,7 @@
             <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
         </div>
     </footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
