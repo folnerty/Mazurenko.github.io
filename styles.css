@@ -42,7 +42,7 @@ function initMap() {
 
 catch (error) {
     console .error('Ошибка инициализации карты:', error);
-    // Если карта не загрузилась, показываем заглушку document.getElementById('campus-map').innerHTML = '<div style="padding: 20px; text-align: center; color: #666;">Карта недоступна. Проверьте подключение к интернету.</div>';
+    // Если карта не загрузилась, показываем заглушку document.getElementById('campus-map').innerHTML = '<div style="padding: 40px; text-align: center; color: #666; background: #f8f9fa;">Карта недоступна. Проверьте подключение к интернету.</div>';
 }
 
 }

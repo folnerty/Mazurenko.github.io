@@ -6,7 +6,7 @@
     <title>Я - студент ВШЭ | Обратная связь</title>
     <!-- Подключение внешнего файла стилей -->
     <link rel="stylesheet" href="styles.css">
-    <!-- Внутренние стили -->
+    <!-- Полные стили для страницы обратной связи -->
     <style>
         .page-title {
             text-align: center;
@@ -49,7 +49,7 @@
                 margin-right: 0.5rem;
             }
 
-        /* Стили для навигации - ИСПРАВЛЕНО */
+        /* ====== СТИЛИ ДЛЯ НАВИГАЦИИ ====== */
         nav {
             background-color: white;
             box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
@@ -102,11 +102,102 @@
                     width: 70%;
                 }
 
-        /* Стили для центрирования формы */
+        /* ====== СТИЛИ ДЛЯ ФОРМЫ ====== */
         #feedback-main {
             max-width: 1200px;
             margin: 2.5rem auto;
             padding: 0 1.5rem;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .feedback-form {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+            padding: 2.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: #2d2d44;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e1e5f2;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+            input[type="text"]:focus,
+            input[type="email"]:focus,
+            input[type="tel"]:focus,
+            select:focus,
+            textarea:focus {
+                outline: none;
+                border-color: #8e2de2;
+                box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.15);
+            }
+
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .required::after {
+            content: " *";
+            color: #e74c3c;
+        }
+
+        .submit-btn {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            border: none;
+            padding: 1.1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 0, 224, 0.35);
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(74, 0, 224, 0.45);
+            }
+
+            .submit-btn:active {
+                transform: translateY(0);
+            }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-top: 0.6rem;
         }
     </style>
 </head>
@@ -170,7 +261,7 @@
 
                 <div class="form-group">
                     <label for="message" class="required">Сообщение</label>
-                    <textarea id="message" name="message" required placeholder="Введите ваше сообщение здесь..." style="min-height: 150px; resize: vertical; width: 100%;"></textarea>
+                    <textarea id="message" name="message" required placeholder="Введите ваше сообщение здесь..."></textarea>
                 </div>
 
                 <fieldset>

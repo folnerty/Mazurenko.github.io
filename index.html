@@ -106,59 +106,6 @@
                 left: 0;
             }
 
-        /* Стили для навигации */
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-            nav ul {
-                list-style: none;
-                display: flex;
-                justify-content: center;
-                margin: 0;
-                padding: 0;
-            }
-
-            nav li {
-                margin: 0;
-            }
-
-            nav a {
-                display: block;
-                padding: 1.2rem 2rem;
-                text-decoration: none;
-                color: #4a00e0;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                position: relative;
-                font-size: 1.1rem;
-            }
-
-                nav a:hover, nav a.active {
-                    background-color: #f0f4ff;
-                    color: #8e2de2 !important;
-                }
-
-                nav a::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 50%;
-                    width: 0;
-                    height: 3px;
-                    background-color: #8e2de2;
-                    transition: all 0.3s ease;
-                    transform: translateX(-50%);
-                }
-
-                nav a:hover::after, nav a.active::after {
-                    width: 70%;
-                }
-
         /* Стили для карты */
         .map-container {
             height: 400px;
