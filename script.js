@@ -1,0 +1,366 @@
+// Глобальные переменные для чата
+let chatOpen = false;
+let isRecording = false;
+let recognition = null;
+let synth = null;
+
+// Обработчик событий при загрузке страницы
+window.onload = function() {
+    // Инициализация карты (только на главной странице)
+    const campusMap = document.getElementById('campus-map');
+    if (campusMap) {
+        initMap();
+    }
+
+    // Инициализация чата (только на главной странице)
+    const chatToggle = document.getElementById('chat-toggle');
+    if (chatToggle) {
+        initChat();
+    }
+};
+
+// ============ ФУНКЦИИ ДЛЯ КАРТЫ ============
+/**
+ * Инициализация карты с помощью Leaflet
+ */
+function initMap() {
+    // Координаты главного здания ВШЭ на Покровском бульваре
+    const campusCoordinates = [55.7602, 37.6547];
+
+    try {
+        // Создание карты
+        const map = L.map('campus-map').setView(campusCoordinates, 16);
+
+        // Добавление слоя карты (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Добавление маркера кампуса
+        const campusMarker = L.marker(campusCoordinates).addTo(map);
+        campusMarker.bindPopup('<b>НИУ ВШЭ</b><br>Главное здание на Покровском бульваре, 11').openPopup();
+
+        // Создание круга вокруг кампуса
+        L.circle(campusCoordinates, {
+            color: '#8e2de2',
+            fillColor: '#8e2de2',
+            fillOpacity: 0.15,
+            radius: 100
+        }).addTo(map);
+    } catch (error) {
+        console.error('Ошибка инициализации карты:', error);
+        // Если карта не загрузилась, показываем заглушку
+        document.getElementById('campus-map').innerHTML =
+            '<div style="padding: 40px; text-align: center; color: #666; background: #f8f9fa;">Карта недоступна. Проверьте подключение к интернету.</div>';
+    }
+}
+
+// ============ ФУНКЦИИ ДЛЯ ЧАТА ============
+
+/**
+ * Инициализация чата
+ */
+function initChat() {
+    const chatToggle = document.getElementById('chat-toggle');
+    const chatContainer = document.getElementById('chat-container');
+    const chatHeader = document.getElementById('chat-header');
+    const closeChat = document.getElementById('close-chat');
+    const sendBtn = document.getElementById('send-btn');
+    const voiceBtn = document.getElementById('voice-btn');
+    const chatInput = document.getElementById('chat-input');
+
+    // Инициализация Web Speech API
+    initSpeechAPI();
+
+    // Обработчик переключения чата
+    chatToggle.addEventListener('click', function() {
+        chatOpen = !chatOpen;
+        chatContainer.classList.toggle('active', chatOpen);
+
+        // Если чат открывается, фокус на поле ввода
+        if (chatOpen) {
+            setTimeout(() => {
+                chatInput.focus();
+            }, 300);
+        }
+    });
+
+    // Обработчик закрытия чата
+    closeChat.addEventListener('click', function() {
+        chatOpen = false;
+        chatContainer.classList.remove('active');
+    });
+
+    // Обработчик клика по заголовку чата (сворачивание)
+    chatHeader.addEventListener('click', function(e) {
+        if (e.target !== closeChat && e.target !== chatHeader.querySelector('h3')) {
+            chatOpen = false;
+            chatContainer.classList.remove('active');
+        }
+    });
+
+    // Обработчик отправки сообщения кнопкой
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Обработчик отправки сообщения по Enter
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    // Обработчик голосового ввода
+    if (voiceBtn) {
+        voiceBtn.addEventListener('click', toggleVoiceRecording);
+    }
+}
+
+/**
+ * Инициализация Web Speech API
+ */
+function initSpeechAPI() {
+    // Проверка поддержки SpeechRecognition
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'ru-RU';
+
+        recognition.onresult = function(event) {
+            if (event.results && event.results[0]) {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('chat-input').value = transcript;
+                stopVoiceRecording();
+                sendMessage();
+            }
+        };
+
+        recognition.onerror = function(event) {
+            console.error('Ошибка распознавания речи:', event.error);
+            stopVoiceRecording();
+            if (document.getElementById('chat-messages')) {
+                addBotMessage('К сожалению, не удалось распознать вашу речь. Попробуйте еще раз или напишите текстом.');
+            }
+        };
+    }
+
+    // Проверка поддержки SpeechSynthesis
+    if ('speechSynthesis' in window) {
+        synth = window.speechSynthesis;
+    }
+}
+
+/**
+ * Отправка сообщения
+ */
+function sendMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const message = chatInput.value.trim();
+
+    if (message) {
+        // Добавление сообщения пользователя
+        addUserMessage(message);
+
+        // Очистка поля ввода
+        chatInput.value = '';
+
+        // Генерация ответа бота с задержкой
+        setTimeout(() => {
+            const botResponse = generateBotResponse(message);
+            addBotMessage(botResponse);
+        }, 1000);
+    }
+}
+
+/**
+ * Добавление сообщения пользователя
+ */
+function addUserMessage(message) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message user';
+
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message;
+
+    const messageTime = document.createElement('div');
+    messageTime.className = 'message-time';
+    messageTime.textContent = getCurrentTime();
+
+    messageDiv.appendChild(messageContent);
+    messageDiv.appendChild(messageTime);
+    chatMessages.appendChild(messageDiv);
+
+    // Прокрутка вниз
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+/**
+ * Добавление сообщения бота
+ */
+function addBotMessage(message) {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'message bot';
+
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = message;
+
+    const messageTime = document.createElement('div');
+    messageTime.className = 'message-time';
+    messageTime.textContent = getCurrentTime();
+
+    messageDiv.appendChild(messageContent);
+    messageDiv.appendChild(messageTime);
+    chatMessages.appendChild(messageDiv);
+
+    // Прокрутка вниз
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Озвучивание ответа (если поддерживается)
+    speakMessage(message);
+}
+
+/**
+ * Генерация ответа бота на основе ключевых слов
+ */
+function generateBotResponse(message) {
+    const lowerMessage = message.toLowerCase();
+
+    // База знаний бота
+    const responses = {
+        // Приветствия
+        'привет': ['Привет! Рад тебя видеть!', 'Здравствуй!', 'Привет! Как дела?'],
+        'здравствуй': ['Привет! Рад тебя видеть!', 'Здравствуй! Чем могу помочь?'],
+        'хай': ['Привет! Рад тебя видеть!', 'Хай! Как дела?'],
+
+        // Вопросы о ВШЭ
+        'вшэ': ['ВШЭ - это замечательный университет с отличными программами!', 'Я очень доволен учебой в Вышке!', 'ВШЭ предоставляет много возможностей для развития.'],
+        'университет': ['Учусь в НИУ ВШЭ, это один из лучших вузов России.', 'ВШЭ - это современный университет с сильными программами.'],
+        'учусь': ['Я учусь на факультете МИЭМ по специальности прикладная математика.', 'Учусь на 4 курсе бакалавриата ВШЭ.'],
+
+        // Вопросы о специальности
+        'математика': ['Прикладная математика - это увлекательная область, сочетающая теорию и практику.', 'Изучаю алгоритмы, машинное обучение и разработку программного обеспечения.'],
+        'специальность': ['Моя специальность - прикладная математика.', 'Учусь на прикладной математике, это очень интересно!'],
+        'программирование': ['Да, я увлекаюсь программированием, особенно веб-разработкой и искусственным интеллектом.', 'Программирование - это мое хобби и будущая профессия.'],
+
+        // Вопросы о достижениях
+        'достижения': ['Я призер олимпиады по программированию и участвую в научных проектах.', 'У меня средний балл 7, и я активно участвую в жизни университета.'],
+        'олимпиада': ['Да, я призер внутривузовской олимпиады по алгоритмизации и программированию!', 'Олимпиады помогают развивать навыки и получать признание.'],
+
+        // Вопросы о кампусе
+        'кампус': ['Учусь в главном кампусе на Покровском бульваре. Там отличные условия для учебы!', 'Кампус ВШЭ оснащен современным оборудованием и удобными аудиториями.'],
+        'здание': ['Здания ВШЭ сочетают историческую архитектуру с современными технологиями.', 'В наших аудиториях есть все необходимое для комфортной учебы.'],
+
+        // Общие вопросы
+        'как дела': ['Отлично! Учусь, развиваюсь, участвую в проектах.', 'Все хорошо, спасибо! Учусь в Вышке и наслаждаюсь процессом.'],
+        'чем занимаешься': ['Учусь в ВШЭ, изучаю прикладную математику и программирование.', 'Разрабатываю веб-приложения и изучаю искусственный интеллект.'],
+        'хобби': ['Увлекаюсь веб-разработкой, искусственным интеллектом и бэкенд разработкой.', 'Мое хобби - программирование и участие в хакатонах.'],
+
+        // Помощь
+        'помощь': ['Я могу рассказать о ВШЭ, своей учебе, специальности или достижениях.', 'Спрашивай о том, что тебя интересует!'],
+        'что ты умеешь': ['Я могу ответить на вопросы об учебе в ВШЭ, своей специальности и опыте.', 'Я студент ВШЭ, готов поделиться своим опытом.'],
+
+        // Прощания
+        'пока': ['До свидания! Возвращайся еще!', 'Пока! Был рад пообщаться!', 'До встречи!'],
+        'до свидания': ['До свидания! Возвращайся еще!', 'Пока! Был рад пообщаться!'],
+
+        // Благодарности
+        'спасибо': ['Пожалуйста! Рад был помочь!', 'Всегда пожалуйста!', 'Не за что!'],
+        'благодарю': ['Пожалуйста! Рад был помочь!', 'Всегда пожалуйста!']
+    };
+
+    // Поиск ключевых слов
+    for (const [keyword, responseArray] of Object.entries(responses)) {
+        if (lowerMessage.includes(keyword)) {
+            // Возвращаем случайный ответ из массива
+            return responseArray[Math.floor(Math.random() * responseArray.length)];
+        }
+    }
+
+    // Если не найдено совпадений
+    const defaultResponses = [
+        'Это интересный вопрос! Я студент ВШЭ, учусь на прикладной математике.',
+        'Я пока не знаю ответа на этот вопрос, но учусь каждый день!',
+        'Расскажи мне больше об этом! Я с удовольствием послушаю.',
+        'Это заставляет меня задуматься... Я продолжу изучать этот вопрос.'
+    ];
+
+    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+}
+
+/**
+ * Переключение голосовой записи
+ */
+function toggleVoiceRecording() {
+    if (!recognition) {
+        alert('Ваш браузер не поддерживает распознавание речи.');
+        return;
+    }
+
+    if (isRecording) {
+        stopVoiceRecording();
+    } else {
+        startVoiceRecording();
+    }
+}
+
+/**
+ * Начало голосовой записи
+ */
+function startVoiceRecording() {
+    const voiceBtn = document.getElementById('voice-btn');
+    voiceBtn.classList.add('voice-recording');
+    voiceBtn.innerHTML = '<i>⏹</i>';
+    isRecording = true;
+
+    try {
+        recognition.start();
+    } catch (error) {
+        console.error('Ошибка начала записи:', error);
+        stopVoiceRecording();
+    }
+}
+
+/**
+ * Остановка голосовой записи
+ */
+function stopVoiceRecording() {
+    const voiceBtn = document.getElementById('voice-btn');
+    voiceBtn.classList.remove('voice-recording');
+    voiceBtn.innerHTML = '<i>🎤</i>';
+    isRecording = false;
+
+    if (recognition) {
+        try {
+            recognition.stop();
+        } catch (error) {
+            console.error('Ошибка остановки записи:', error);
+        }
+    }
+}
+
+/**
+ * Озвучивание сообщения
+ */
+function speakMessage(message) {
+    if (synth && !synth.speaking) {
+        const utterance = new SpeechSynthesisUtterance(message);
+        utterance.lang = 'ru-RU';
+        utterance.rate = 0.9;
+        synth.speak(utterance);
+    }
+}
+
+/**
+ * Получение текущего времени в формате ЧЧ:ММ
+ */
+function getCurrentTime() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
+}
