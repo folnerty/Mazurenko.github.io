@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Я - студент ВШЭ | Полученные сообщения</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .submissions-container {
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 2rem 0;
+            color: #2d2d44;
+            font-size: 2.8rem;
+        }
+
+        .search-box {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.9rem 1.2rem;
+            border: 2px solid #e1e5f2;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #8e2de2;
+            box-shadow: 0 0 0 3px rgba(142, 45, 226, 0.15);
+        }
+
+        .search-btn {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.45);
+        }
+
+        .submissions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .submission-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+            border-left: 5px solid #8e2de2;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .submission-title {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .submission-title h3 {
+            color: #2d2d44;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+        }
+
+        .submission-meta {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .submission-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .submission-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-stars {
+            color: #f39c12;
+            font-size: 1.2rem;
+        }
+
+        .submission-body {
+            margin: 1.5rem 0;
+            line-height: 1.8;
+            color: #333;
+            background: #f9faff;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .submission-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e1e5f2;
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .submission-details {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4a00e0;
+        }
+
+        .empty-state {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            color: #2d2d44;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #4a00e0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #8e2de2;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            border: 4px solid #e1e5f2;
+            border-top: 4px solid #8e2de2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #fee;
+            border: 1px solid #fcc;
+            color: #c33;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav li {
+            margin: 0;
+        }
+
+        nav a {
+            display: block;
+            padding: 1.2rem 2rem;
+            text-decoration: none;
+            color: #4a00e0;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover,
+        nav a.active {
+            background-color: #f0f4ff;
+            color: #8e2de2;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: #8e2de2;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Я - студент ВШЭ</h1>
+        <p class="subtitle">Национальный исследовательский университет «Высшая школа экономики» — один из ведущих вузов России</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="feedback.html">Обратная связь</a></li>
+            <li><a href="submissions.html" class="active">Полученные сообщения</a></li>
+        </ul>
+    </nav>
+
+    <main class="submissions-container">
+        <a href="feedback.html" class="back-link">← Вернуться к форме</a>
+
+        <section class="content-section">
+            <h2 class="page-title">Полученные сообщения</h2>
+            <p>Здесь вы можете просмотреть все отправленные вами сообщения через форму обратной связи. Введите вашу электронную почту для поиска.</p>
+
+            <div class="search-box">
+                <input
+                    type="email"
+                    id="search-email"
+                    placeholder="Введите вашу электронную почту..."
+                    autocomplete="email">
+                <button class="search-btn" id="search-btn">Поиск</button>
+            </div>
+
+            <div id="error-message"></div>
+
+            <div id="submissions-container" class="submissions-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📧</div>
+                    <h3>Введите вашу почту для поиска</h3>
+                    <p>Введите адрес электронной почты, на которую вы отправляли сообщение, чтобы просмотреть ваши отправления.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Контакты</h3>
+                <ul class="contact-info">
+                    <li>г. Москва, Покровский бульвар, 11</li>
+                    <li>+7 (495) 628-83-76</li>
+                    <li>admission@hse.ru</li>
+                    <li>Пн-Пт: 9:00 - 18:00</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Полезные ссылки</h3>
+                <a href="https://www.hse.ru/" target="_blank">Официальный сайт ВШЭ</a>
+                <a href="https://www.hse.ru/edu/" target="_blank">Образование</a>
+                <a href="https://www.hse.ru/research/" target="_blank">Научная работа</a>
+                <a href="https://www.hse.ru/career/" target="_blank">Карьера</a>
+                <a href="https://www.hse.ru/international/" target="_blank">Международное сотрудничество</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>Социальные сети</h3>
+                <a href="https://vk.com/hse_university" target="_blank">ВКонтакте</a>
+                <a href="https://t.me/hse_university" target="_blank">Telegram</a>
+                <a href="https://www.youtube.com/user/HSEUniversity" target="_blank">YouTube</a>
+                <a href="https://www.instagram.com/hse_university/" target="_blank">Instagram</a>
+                <a href="https://rutube.ru/channel/23711067/" target="_blank">Rutube</a>
+            </div>
+
+            <div class="footer-section">
+                <h3>НИУ ВШЭ</h3>
+                <p>Национальный исследовательский университет «Высшая школа экономики» — один из крупнейших вузов России, реализующий программы высшего образования, дополнительного образования и научной деятельности.</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/HSE_University_logo.svg/1200px-HSE_University_logo.svg.png" alt="Логотип ВШЭ" class="hse-logo">
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
+        </div>
+    </footer>
+
+    <script src="submissions.js"></script>
+</body>
+</html>

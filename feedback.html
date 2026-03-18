@@ -211,6 +211,7 @@
         <ul>
             <li><a href="index.html">Главная</a></li>
             <li><a href="feedback.html" class="active">Обратная связь</a></li>
+            <li><a href="submissions.html">Полученные сообщения</a></li>
         </ul>
     </nav>
 
@@ -225,7 +226,7 @@
         </section>
 
         <section class="form-container">
-            <form class="feedback-form" action="#" method="post">
+            <form class="feedback-form" id="feedback-form">
                 <div class="form-group">
                     <label for="name" class="required">Ваше имя</label>
                     <input type="text" id="name" name="name" required placeholder="Введите ваше имя">
@@ -318,7 +319,8 @@
 
                 <p class="form-note">Нажимая кнопку "Отправить сообщение", вы даёте согласие на обработку персональных данных в соответствии с <a href="#" style="color: #4a00e0; text-decoration: underline;">политикой конфиденциальности</a>.</p>
 
-                <button type="submit" class="submit-btn">Отправить сообщение</button>
+                <button type="submit" class="submit-btn" id="submit-btn">Отправить сообщение</button>
+                <div id="form-message" style="margin-top: 1rem;"></div>
             </form>
         </section>
     </main>
@@ -365,7 +367,6 @@
         </div>
     </footer>
 
-    <!-- Подключение внешнего JavaScript файла -->
-    <script src="script.js"></script>
+    <script src="feedback.js"></script>
 </body>
 </html>
