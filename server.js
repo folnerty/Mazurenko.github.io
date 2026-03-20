@@ -39,6 +39,10 @@ app.get('/submissions', (req, res) => {
   res.sendFile(join(__dirname, 'submissions.html'));
 });
 
+app.get('/onepage', (req, res) => {
+  res.sendFile(join(__dirname, 'onepage.html'));
+});
+
 app.post('/api/feedback', async (req, res) => {
   try {
     const { name, email, phone, faculty, subject, message, inquiryType, newsletter, anonymous, rating } = req.body;
@@ -128,4 +132,5 @@ app.listen(PORT, () => {
   console.log(`Main page: http://localhost:${PORT}`);
   console.log(`Feedback form: http://localhost:${PORT}/feedback`);
   console.log(`Submissions: http://localhost:${PORT}/submissions`);
+  console.log(`One Page: http://localhost:${PORT}/onepage`);
 });

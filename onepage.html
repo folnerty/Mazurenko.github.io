@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Я - студент ВШЭ | One Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        nav.navbar {
+            background: white !important;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #8e2de2 !important;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            color: #4a00e0 !important;
+            font-weight: 600;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #8e2de2;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        section.light {
+            background: #f8f9fa;
+        }
+
+        h2 {
+            color: #2d2d44;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #8e2de2, #4a00e0);
+            border-radius: 2px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            border: none;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .badge-custom {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            padding: 0.6rem 1.5rem;
+            font-size: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #8e2de2;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .gallery-item {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(45deg, #8e2de2, #4a00e0);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            font-weight: 600;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(142, 45, 226, 0.4);
+        }
+
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+            height: 400px;
+            margin: 2rem 0;
+        }
+
+        #campus-map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .form-control {
+            border: 2px solid #e1e5f2;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #8e2de2;
+            box-shadow: 0 0 0 0.2rem rgba(142, 45, 226, 0.25);
+        }
+
+        .btn-custom {
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.45);
+            color: white;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            margin: 2rem 0;
+        }
+
+        footer {
+            background: linear-gradient(120deg, #2d2d44 0%, #1a1a2e 100%);
+            color: white;
+            padding: 3rem 0 1.5rem;
+            margin-top: 5rem;
+        }
+
+        footer h5 {
+            color: #8e2de2;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        footer a {
+            color: #b8c5d6;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: #8e2de2;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(120deg, #8e2de2 0%, #4a00e0 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(74, 0, 224, 0.4);
+            z-index: 99;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            transform: scale(1.1);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e6edff 100%);
+            border-left: 5px solid #8e2de2;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: #f0f4ff;
+            border-left: 4px solid #8e2de2;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 3rem 0;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#home">ВШЭ Студент</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Обо мне</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#achievements">Достижения</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#campus">Кампус</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#stats">Статистика</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#feedback">Контакты</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header id="home">
+        <div class="container">
+            <h1>Я - студент ВШЭ</h1>
+            <p class="subtitle">Национальный исследовательский университет «Высшая школа экономики» — один из ведущих вузов России</p>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="mb-5">Обо мне</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-4 text-center mb-4">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=HSEStudent" alt="Аватар" class="img-fluid rounded-3 shadow" style="max-width: 300px;">
+                </div>
+                <div class="col-lg-8">
+                    <h3 class="text-primary mb-3">Никита Мазуренко</h3>
+                    <p class="lead">Я с гордостью учусь на <strong>бакалавриате факультета МИЭМ</strong> НИУ ВШЭ. Поступил в университет в 2023 году после окончания школы с золотой медалью.</p>
+                    <p>Моя специализация — <em>прикладная математика</em>. Я увлекаюсь разработкой веб-приложений, искусственным интеллектом и бэкэнд разработкой.</p>
+
+                    <div class="row g-3 mt-4">
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-award text-warning"></i> Средний балл
+                                    </h5>
+                                    <p class="card-text">
+                                        <span style="font-size: 2rem; font-weight: 700; color: #8e2de2;">7.0</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 bg-light">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <i class="bi bi-book text-info"></i> Текущий курс
+                                    </h5>
+                                    <p class="card-text">
+                                        <span style="font-size: 2rem; font-weight: 700; color: #4a00e0;">4</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="highlight-box mt-4">
+                        <strong>ВШЭ предоставляет уникальные возможности:</strong> международные программы обмена, стажировки в ведущих компаниях, научные конференции и проектная деятельность с первого курса.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements" class="light">
+        <div class="container">
+            <h2 class="mb-5">Учебная деятельность и достижения</h2>
+
+            <div class="row mb-5">
+                <div class="col-lg-8">
+                    <h4 class="mb-3">Ключевые дисциплины:</h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Математический анализ и линейная алгебра
+                                </li>
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Алгоритмы и структуры данных
+                                </li>
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Теория вероятностей и статистика
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Машинное обучение и анализ данных
+                                </li>
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Разработка веб-приложений
+                                </li>
+                                <li class="list-group-item border-0 ps-0">
+                                    <i class="bi bi-check-circle text-success"></i> Искусственный интеллект
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow">
+                        <div class="card-header">
+                            <i class="bi bi-trophy"></i> Достижения
+                        </div>
+                        <div class="card-body">
+                            <div class="achievement-badge">
+                                <i class="bi bi-star-fill text-warning"></i> Призер внутривузовской олимпиады по алгоритмизации (2023-2024)
+                            </div>
+                            <div class="achievement-badge">
+                                <i class="bi bi-star-fill text-warning"></i> Участник проекта по разработке приложений моделирования
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats">
+        <div class="container">
+            <h2 class="mb-5">Статистика обучения</h2>
+
+            <div class="chart-container">
+                <div id="plotly-chart"></div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Часов практики</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">25</div>
+                        <div class="stat-label">Проектов завершено</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">8</div>
+                        <div class="stat-label">Языков программирования</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Посещаемость лекций</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="campus" class="light">
+        <div class="container">
+            <h2 class="mb-5">Кампус и студенческая жизнь</h2>
+
+            <p class="lead">Учусь в <strong>Московском кампусе</strong> на Покровском бульваре. Здание университета сочетает историческую архитектуру с современными учебными пространствами.</p>
+
+            <h4 class="mt-4 mb-3">Карта кампуса</h4>
+            <div class="map-container">
+                <div id="campus-map"></div>
+            </div>
+
+            <h4 class="mt-5 mb-3">Галерея университета</h4>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-building" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Главное здание на Покровском бульваре</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-easel" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Современные аудитории</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-book" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Библиотека им. Н.Е. Зефирова</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-cup-hot" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Студенческое кафе</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-laptop" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Коворкинг-зоны</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item">
+                        <div>
+                            <i class="bi bi-activity" style="font-size: 2rem; margin-right: 0.5rem;"></i>
+                            <div>Спортивный комплекс</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="feedback" class="light">
+        <div class="container">
+            <h2 class="mb-5">Свяжитесь со мной</h2>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-header">
+                            <i class="bi bi-envelope"></i> Форма обратной связи
+                        </div>
+                        <div class="card-body">
+                            <form id="contact-form">
+                                <div class="mb-3">
+                                    <label for="form-name" class="form-label">Ваше имя</label>
+                                    <input type="text" class="form-control" id="form-name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="form-email" class="form-label">Электронная почта</label>
+                                    <input type="email" class="form-control" id="form-email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="form-subject" class="form-label">Тема</label>
+                                    <input type="text" class="form-control" id="form-subject" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="form-message" class="form-label">Сообщение</label>
+                                    <textarea class="form-control" id="form-message" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-custom w-100">Отправить</button>
+                                <div id="form-status" class="mt-3"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow mb-4">
+                        <div class="card-header">
+                            <i class="bi bi-telephone"></i> Контактная информация
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <i class="bi bi-geo-alt text-primary"></i>
+                                <strong>Адрес:</strong> г. Москва, Покровский бульвар, 11
+                            </div>
+                            <div class="mb-3">
+                                <i class="bi bi-telephone text-primary"></i>
+                                <strong>Телефон:</strong> +7 (495) 628-83-76
+                            </div>
+                            <div class="mb-3">
+                                <i class="bi bi-envelope text-primary"></i>
+                                <strong>Email:</strong> admission@hse.ru
+                            </div>
+                            <div class="mb-3">
+                                <i class="bi bi-clock text-primary"></i>
+                                <strong>Время работы:</strong> Пн-Пт: 9:00 - 18:00
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 shadow">
+                        <div class="card-header">
+                            <i class="bi bi-share"></i> Социальные сети
+                        </div>
+                        <div class="card-body">
+                            <a href="https://vk.com/hse_university" class="btn btn-sm btn-outline-primary me-2">
+                                <i class="bi bi-vimeo"></i> ВКонтакте
+                            </a>
+                            <a href="https://t.me/hse_university" class="btn btn-sm btn-outline-info me-2">
+                                <i class="bi bi-telegram"></i> Telegram
+                            </a>
+                            <a href="https://www.youtube.com/user/HSEUniversity" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-youtube"></i> YouTube
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-md-3 mb-4">
+                    <h5>О ВШЭ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Официальный сайт</a></li>
+                        <li><a href="#">Образование</a></li>
+                        <li><a href="#">Научная работа</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Разделы</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#about">Обо мне</a></li>
+                        <li><a href="#achievements">Достижения</a></li>
+                        <li><a href="#campus">Кампус</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Контакты</h5>
+                    <ul class="list-unstyled">
+                        <li>admission@hse.ru</li>
+                        <li>+7 (495) 628-83-76</li>
+                        <li>Пн-Пт: 9:00-18:00</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Следите за нами</h5>
+                    <a href="#" class="text-decoration-none me-3">VK</a>
+                    <a href="#" class="text-decoration-none me-3">TG</a>
+                    <a href="#" class="text-decoration-none">YouTube</a>
+                </div>
+            </div>
+
+            <hr class="bg-secondary" style="opacity: 0.3;">
+
+            <div class="text-center">
+                <p>&copy; 2026 НИУ ВШЭ. Все права защищены. Студент: Мазуренко Никита, группа БПМ221</p>
+                <small class="text-muted">Разработано с Bootstrap 5 и Plotly.js</small>
+            </div>
+        </div>
+    </footer>
+
+    <div class="back-to-top" id="backToTop">
+        <i class="bi bi-chevron-up"></i>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="onepage.js"></script>
+</body>
+</html>
